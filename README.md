@@ -16,4 +16,4 @@ Học vuejs từ cơ bản đến nâng cao
 - One-way binding: v-bind
 - Two-way binding: v-model
 
-6. Directives
+6. Directives: v-prefix

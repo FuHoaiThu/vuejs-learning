@@ -11,6 +11,7 @@
     <div>Number: {{ number + 1 }}</div>
     <div>List string: {{ listString.split(',').join('-') }}</div>
     <div>Function: {{ convertTo('T1win') }}</div>
+    <a :[attributeName]="url">Link</a>
   </main>
 </template>
 <script setup>
@@ -25,4 +26,6 @@ const objectOfAttrs = {
 const number = 0
 const listString = 'a,b,c,d,e,f,g,h'
 const convertTo = (data) => data.split('').reverse().join('')
+const attributeName = 'href'
+const url = 'https://pomofocus.io/'
 </script>
