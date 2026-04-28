@@ -17,3 +17,12 @@ Học vuejs từ cơ bản đến nâng cao
 - Two-way binding: v-model
 
 6. Directives: v-prefix
+
+7. Binding class and style
+
+- Binding clas: Qua đối tượng và qua mảng
+
+8. Conditional rendering
+
+- v-if, v-else, v-else-if
+- v-show
