@@ -1,3 +1,19 @@
+<script setup lang="ts">
+const message = 'Hello Thu, have a nice day. Manifest T1 win'
+const rawHtml = '<span style="color: red">This should be red.</span>'
+const buttonId = 'button-id'
+const isButtonDisabled = false
+const objectOfAttrs = {
+  id: 'container',
+  class: 'wrapper',
+}
+const number = 0
+const listString = 'a,b,c,d,e,f,g,h'
+const convertTo = (data) => data.split('').reverse().join('')
+const attributeName = 'href'
+const url = 'https://pomofocus.io/'
+</script>
+
 <template>
   <!--Bai 1: Data bindind-->
   <main>
@@ -14,18 +30,5 @@
     <a :[attributeName]="url">Link</a>
   </main>
 </template>
-<script setup>
-const message = 'Hello Thu, have a nice day. Manifest T1 win'
-const rawHtml = '<span style="color: red">This should be red.</span>'
-const buttonId = 'button-id'
-const isButtonDisabled = false
-const objectOfAttrs = {
-  id: 'container',
-  class: 'wrapper',
-}
-const number = 0
-const listString = 'a,b,c,d,e,f,g,h'
-const convertTo = (data) => data.split('').reverse().join('')
-const attributeName = 'href'
-const url = 'https://pomofocus.io/'
-</script>
+
+<style scoped></style>

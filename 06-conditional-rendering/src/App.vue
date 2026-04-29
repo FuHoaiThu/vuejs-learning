@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 const isLogin = ref(true)
 const userStatus = ref('online')
+const isVisible = ref(false)
 
 const toggleLogin = () => {
   isLogin.value = !isLogin.value
@@ -9,6 +10,9 @@ const toggleLogin = () => {
 const handleChangeStatus = () => {
   userStatus.value =
     userStatus.value === 'online' ? 'away' : userStatus.value === 'away' ? 'busy' : 'online'
+}
+const handleVisible = () => {
+  isVisible.value = !isVisible.value
 }
 </script>
 
@@ -30,6 +34,11 @@ const handleChangeStatus = () => {
           userStatus === 'online' ? 'Set Away' : userStatus === 'away' ? 'Set Busy' : 'Set Online'
         }}
       </button>
+      <br />
+      <br />
+
+      <h1 v-show="isVisible">Nội dung này ẩn hoặc hiển thị</h1>
+      <button @click="handleVisible">{{ isVisible ? 'Hiển thị' : 'Ẩn' }}</button>
     </div>
   </div>
 </template>

@@ -26,3 +26,12 @@ Học vuejs từ cơ bản đến nâng cao
 
 - v-if, v-else, v-else-if
 - v-show
+
+9. Rendering list
+
+- v-for and :key
+
+Bài tập thực hành
+
+1. Todo list app
+   Figma: https://www.figma.com/design/xBPPZMdwLMw3jKvfvKsMTu/Simple-ToDo-List-Design--Community-?node-id=18-478&t=UaNk6xcmclyJvDYJ-0
