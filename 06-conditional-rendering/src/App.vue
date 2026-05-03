@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 const isLogin = ref(true)
 const userStatus = ref('online')
 const isVisible = ref(false)

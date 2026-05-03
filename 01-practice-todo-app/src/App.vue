@@ -10,6 +10,7 @@ import TodoList from './views/TodoList.vue'
 
 <style scoped>
 main {
-  font-family: Arial, Helvetica, sans-serif;\
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
 </style>
