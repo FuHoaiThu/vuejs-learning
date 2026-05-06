@@ -6,17 +6,37 @@
       <Dropdown />
       <ToggleMode />
     </div>
-    <div class="todo-list">
-      <Empty v-if="!todos.length" />
-    </div>
+    <Empty v-if="!todos.length" />
+    <ul class="todo-list" v-else>
+      <li v-for="todo in todos" :key="todo.id">
+        <div class="group-input">
+          <input
+            type="checkbox"
+            v-model="todo.isChecked"
+            :id="`todo-${todo.id}`"
+            :value="todo.id"
+          />
+          <label :for="`todo-${todo.id}`"> {{ todo.value }} </label>
+        </div>
+        <div class="group-actions">
+          <font-awesome-icon icon="fa-regular fa-pen-to-square" @click="handleEdit(todo)" />
+          <font-awesome-icon icon="fa-regular fa-trash-can" />
+        </div>
+      </li>
+    </ul>
     <footer>
-      <button @click="handleAddTodo">
+      <button @click="handleOpenModal">
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
     </footer>
   </section>
 
-  <ModalAddTodo v-model="showModal" />
+  <ModalAddTodo
+    :is-show-modal="isShowModal"
+    :selected-todo="selectedTodo"
+    @on-close="handleCloseModal"
+    @on-add="handleAddTodo"
+  />
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -25,10 +45,38 @@ import Dropdown from '@/components/dropdowns/SelectDropdown.vue'
 import ToggleMode from '@/components/ToggleMode.vue'
 import Empty from '@/components/Empty.vue'
 import ModalAddTodo from '@/components/modal/ModalAddTodo.vue'
+import { nanoid } from 'nanoid'
 
 const keyWord = ref('')
-const todos = ref([])
-const showModal = ref(true)
+const todos = ref([
+  {
+    id: 0,
+    value: 'todo 1',
+    isChecked: false,
+  },
+  {
+    id: 1,
+    value: 'todo 2',
+    isChecked: true,
+  },
+])
+const isShowModal = ref(false)
+const selectedTodo = ref(null)
+
+const handleCloseModal = () => {
+  isShowModal.value = false
+}
+const handleOpenModal = () => {
+  isShowModal.value = true
+}
+const handleAddTodo = (todo) => {
+  todos.value = [...todos.value, { id: nanoid(), value: todo, isChecked: false }]
+  handleCloseModal()
+}
+const handleEdit = (todo) => {
+  selectedTodo.value = todo
+  isShowModal.value = true
+}
 </script>
 <style lang="scss" scoped>
 section {
@@ -74,7 +122,6 @@ section {
     display: flex;
     justify-content: flex-end;
     padding: 0 8px;
-    pointer-events: none;
     button {
       width: 50px;
       height: 50px;
@@ -88,6 +135,46 @@ section {
         width: 24px;
         height: 24px;
         color: white;
+      }
+    }
+  }
+  .todo-list {
+    width: 520px;
+    margin-top: 30px;
+    li {
+      list-style-type: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .group-input {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        input {
+          width: 26px;
+          height: 26px;
+          cursor: pointer;
+        }
+        label {
+          font-size: 20px;
+          color: #252525;
+          font-weight: 500;
+          cursor: pointer;
+        }
+      }
+      .group-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        svg {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          color: #cdcdcd;
+          &:hover {
+            color: #6c63ff;
+          }
+        }
       }
     }
   }

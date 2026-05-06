@@ -1,24 +1,60 @@
 <template>
   <Teleport to="body">
-    <section class="modal">
+    <section class="modal" v-show="isShowModal">
       <div class="modal-wrapper">
         <div>
           <h2 class="modal-header">New Note</h2>
-          <TextInput placeholder="Input your note..." :model-value="todo" :is-show-icon="false" />
+          <TextInput placeholder="Input your note..." v-model="todo" :is-show-icon="false" />
         </div>
         <footer>
-          <button class="button--cancel">Cancel</button>
-          <button>Apply</button>
+          <button class="button--cancel" @click="onClose">Cancel</button>
+          <button class="button--apply" :class="{ 'button--disable': isDisabled }" @click="onAdd">
+            Apply
+          </button>
         </footer>
       </div>
     </section>
   </Teleport>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import TextInput from '../inputs/TextInput.vue'
 
+const emit = defineEmits(['onClosed', 'onAdd'])
+
+const props = defineProps({
+  isShowModal: {
+    type: Boolean,
+    default: false,
+  },
+  selectedTodo: {
+    type: Object,
+    default: null,
+  },
+})
+
 const todo = ref('')
+
+const isDisabled = computed(() => {
+  return todo.value.trim().length === 0
+})
+
+const onClose = () => {
+  emit('onClose')
+}
+const onAdd = () => {
+  emit('onAdd', todo.value)
+}
+watch(
+  props.selectedTodo,
+  () => {
+    console.log('thuthtu')
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+)
 </script>
 <style lang="scss" scoped>
 .modal {
@@ -61,16 +97,29 @@ const todo = ref('')
       display: flex;
       align-items: center;
       justify-content: space-between;
-      .button--cancel {
-        border-radius: 5px;
-        min-width: 110px;
-        border: 1px solid #6c63ff;
-        font-size: 18px;
-        color: #6c63ff;
-        font-weight: 700;
+      button {
         cursor: pointer;
         outline: none;
+        border-radius: 5px;
+        font-size: 18px;
         height: 40px;
+        font-weight: 500;
+      }
+      .button--cancel {
+        min-width: 110px;
+        border: 1px solid #6c63ff;
+        color: #6c63ff;
+      }
+      .button--apply {
+        border: none;
+        background-color: #6c63ff;
+        min-width: 97px;
+        color: white;
+      }
+      .button--disable {
+        background-color: #bfbfbf;
+        cursor: default;
+        pointer-events: none;
       }
     }
   }
