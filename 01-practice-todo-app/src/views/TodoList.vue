@@ -1,10 +1,10 @@
 <template>
-  <section>
+  <section :class="{ 'dark-mode': isDark }">
     <h1>Todo List</h1>
     <div class="todo-filter">
       <TextInput placeholder="Search note..." :model-value="keyWord" :is-show-icon="true" />
       <Dropdown />
-      <ToggleMode />
+      <ToggleMode @on-toggle="onToggle" :icon="iconMode" />
     </div>
     <Empty v-if="!todos.length" />
     <ul class="todo-list" v-else>
@@ -16,11 +16,13 @@
             :id="`todo-${todo.id}`"
             :value="todo.id"
           />
-          <label :for="`todo-${todo.id}`"> {{ todo.value }} </label>
+          <label :for="`todo-${todo.id}`" :class="{ 'todo--completed': todo.isChecked }">
+            {{ todo.value }}
+          </label>
         </div>
         <div class="group-actions">
           <font-awesome-icon icon="fa-regular fa-pen-to-square" @click="handleEdit(todo)" />
-          <font-awesome-icon icon="fa-regular fa-trash-can" />
+          <font-awesome-icon icon="fa-regular fa-trash-can" @click="handleDelete(todo)" />
         </div>
       </li>
     </ul>
@@ -32,21 +34,26 @@
   </section>
 
   <ModalAddTodo
-    :is-show-modal="isShowModal"
+    v-if="isShowModal"
     :selected-todo="selectedTodo"
     @on-close="handleCloseModal"
     @on-add="handleAddTodo"
+    @on-edit="handleEditTodo"
   />
 </template>
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import TextInput from '@/components/inputs/TextInput.vue'
 import Dropdown from '@/components/dropdowns/SelectDropdown.vue'
 import ToggleMode from '@/components/ToggleMode.vue'
 import Empty from '@/components/Empty.vue'
 import ModalAddTodo from '@/components/modal/ModalAddTodo.vue'
 import { nanoid } from 'nanoid'
+import { useTheme } from '@/composables/useTheme'
 
+const emit = defineEmits(['onToggle'])
+
+const { isDark } = useTheme()
 const keyWord = ref('')
 const todos = ref([
   {
@@ -63,10 +70,15 @@ const todos = ref([
 const isShowModal = ref(false)
 const selectedTodo = ref(null)
 
+const iconMode = computed(() => {
+  return isDark.value ? 'fa-regular fa-sun' : 'fa-regular fa-moon'
+})
+
 const handleCloseModal = () => {
   isShowModal.value = false
 }
 const handleOpenModal = () => {
+  selectedTodo.value = null
   isShowModal.value = true
 }
 const handleAddTodo = (todo) => {
@@ -76,6 +88,17 @@ const handleAddTodo = (todo) => {
 const handleEdit = (todo) => {
   selectedTodo.value = todo
   isShowModal.value = true
+}
+const handleEditTodo = (todo) => {
+  const index = todos.value.findIndex((item) => item.id === todo.id)
+  todos.value[index] = todo
+  handleCloseModal()
+}
+const handleDelete = (todo) => {
+  todos.value = todos.value.filter((item) => item.id !== todo.id)
+}
+const onToggle = () => {
+  emit('onToggle')
 }
 </script>
 <style lang="scss" scoped>
@@ -146,6 +169,15 @@ section {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
+      padding: 17px;
+      border-bottom: 1px solid #6c63ff;
+      &:first-child {
+        padding-top: 0;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
       .group-input {
         display: flex;
         align-items: center;
@@ -154,12 +186,36 @@ section {
           width: 26px;
           height: 26px;
           cursor: pointer;
+          margin: 0;
+          appearance: none;
+          border: 1px solid #6c63ff;
+          background-color: transparent;
+          position: relative;
+          &:checked {
+            background-color: #6c63ff;
+          }
+          &:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 7px;
+            height: 13px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: translate(-50%, -65%) rotate(45deg);
+          }
         }
         label {
           font-size: 20px;
           color: #252525;
           font-weight: 500;
           cursor: pointer;
+          flex: 1;
+          overflow-wrap: anywhere;
+        }
+        .todo--completed {
+          text-decoration: line-through;
         }
       }
       .group-actions {
@@ -174,6 +230,40 @@ section {
           &:hover {
             color: #6c63ff;
           }
+        }
+      }
+    }
+  }
+}
+.dark-mode {
+  h1 {
+    color: white;
+  }
+  .todo-filter {
+    :deep(.group-input) {
+      .input {
+        border: 1px solid #f7f7f7;
+        background-color: transparent;
+        color: #fff;
+        &::placeholder {
+          color: #666666;
+        }
+      }
+      svg {
+        color: white;
+      }
+    }
+  }
+  .todo-list {
+    li {
+      .group-input {
+        input {
+          &:checked {
+            background-color: transparent;
+          }
+        }
+        label {
+          color: white;
         }
       }
     }

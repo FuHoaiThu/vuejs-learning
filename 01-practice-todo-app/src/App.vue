@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import TodoList from './views/TodoList.vue'
+import { useTheme } from '@/composables/useTheme'
+
+const { toggleTheme } = useTheme()
 </script>
 
 <template>
   <main>
-    <TodoList />
+    <TodoList @on-toggle="toggleTheme" />
   </main>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <Teleport to="body">
-    <section class="modal" v-show="isShowModal">
+    <section class="modal" :class="{ 'dark-mode': isDark }">
       <div class="modal-wrapper">
         <div>
           <h2 class="modal-header">New Note</h2>
-          <TextInput placeholder="Input your note..." v-model="todo" :is-show-icon="false" />
+          <TextInput placeholder="Input your note..." v-model="todoName" :is-show-icon="false" />
         </div>
         <footer>
           <button class="button--cancel" @click="onClose">Cancel</button>
@@ -19,36 +19,43 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import TextInput from '../inputs/TextInput.vue'
+import { useTheme } from '@/composables/useTheme'
 
-const emit = defineEmits(['onClosed', 'onAdd'])
+const emit = defineEmits(['onClosed', 'onAdd', 'onEdit'])
 
 const props = defineProps({
-  isShowModal: {
-    type: Boolean,
-    default: false,
-  },
   selectedTodo: {
     type: Object,
     default: null,
   },
 })
 
-const todo = ref('')
+const { isDark } = useTheme()
+const todoName = ref('')
 
 const isDisabled = computed(() => {
-  return todo.value.trim().length === 0
+  return todoName.value.trim().length === 0
 })
 
 const onClose = () => {
   emit('onClose')
 }
 const onAdd = () => {
-  emit('onAdd', todo.value)
+  if (!props.selectedTodo) {
+    emit('onAdd', todoName.value)
+  } else {
+    emit('onEdit', {
+      ...props.selectedTodo,
+      value: todoName.value,
+    })
+  }
 }
 watch(
   props.selectedTodo,
-  () => {
-    console.log('thuthtu')
+  (todo) => {
+    if (todo) {
+      todoName.value = todo.value
+    }
   },
   {
     immediate: true,
@@ -120,6 +127,30 @@ watch(
         background-color: #bfbfbf;
         cursor: default;
         pointer-events: none;
+      }
+    }
+  }
+}
+.dark-mode {
+  .modal-wrapper {
+    background-color: transparent;
+    border: 1px solid #f7f7f7;
+    .modal-header {
+      color: white;
+    }
+    :deep(.group-input) {
+      .input {
+        border: 1px solid #f7f7f7;
+        background-color: transparent;
+        color: white;
+        &::placeholder {
+          color: #666;
+        }
+      }
+    }
+    footer {
+      .button--cancel {
+        background-color: transparent;
       }
     }
   }

@@ -1,0 +1,10 @@
+:root {
+  --bg-primary: #fff;
+}
+.dark {
+  --bg-primary: #252525;
+}
+body {
+  margin: 0;
+  background-color: var(--bg-primary);
+}

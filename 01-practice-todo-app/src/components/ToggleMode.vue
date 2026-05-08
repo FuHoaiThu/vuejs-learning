@@ -1,8 +1,20 @@
 <template>
-  <div class="mode">
-    <font-awesome-icon icon="fa-regular fa-moon" />
+  <div class="mode" @click="onToggleMode">
+    <font-awesome-icon :icon="icon" />
   </div>
 </template>
+<script setup>
+const emit = defineEmits(['onToggle'])
+const props = defineProps({
+  icon: {
+    type: String,
+    default: '',
+  },
+})
+const onToggleMode = () => {
+  emit('onToggle')
+}
+</script>
 <style lang="scss" scoped>
 .mode {
   width: 40px;
