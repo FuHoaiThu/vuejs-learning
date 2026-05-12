@@ -31,6 +31,10 @@ Học vuejs từ cơ bản đến nâng cao
 
 - v-for and :key
 
+10. Event handling
+
+11. Form + v-model
+
 Bài tập thực hành
 
 1. Todo list app
