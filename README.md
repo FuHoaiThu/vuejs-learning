@@ -35,6 +35,10 @@ Học vuejs từ cơ bản đến nâng cao
 
 11. Form + v-model
 
+- v-model modifiers
+
+12. Lifecycle
+
 Bài tập thực hành
 
 1. Todo list app

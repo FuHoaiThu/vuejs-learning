@@ -33,13 +33,13 @@ const handeInput1 = (event) => {
       <p>Multiline Text: {{ multiplineText }}</p>
     </div>
     <div>
-      <input type="checkbox" v-model="checkboxValue" aria-label="checkbox" />
-      <label for="checkbox">Single checkbox: Check me {{ checkboxValue }}</label>
+      <input type="checkbox" v-model="checkboxValue" aria-label="checkbox" true-value="Yes" false-value="No"/>
+      <label for="checkbox">Single checkbox: {{ checkboxValue }}</label>
     </div>
     <div>
-      <input type="checkbox" id="checkbox1" value="Option 1" v-model="checkboxValues" />
+      <input type="checkbox" id="checkbox1" value="First option" v-model="checkboxValues" />
       <label for="checkbox1">Option 1</label>
-      <input type="checkbox" id="checkbox2" value="Option 2" v-model="checkboxValues" />
+      <input type="checkbox" id="checkbox2" value="Second option" v-model="checkboxValues" />
       <label for="checkbox2">Option 2</label>
       <p>Selected options: {{ checkboxValues }}</p>
     </div>
