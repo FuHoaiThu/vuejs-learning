@@ -1,25 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import CustomInput from './components/CustomInput.vue'
 
 const fullname = ref('')
 const age = ref(0)
-
-const [modelValue, modifiers] = defineModel({
-  type: String,
-  default: '',
-})
-
-const capitalizeName = computed({
-  get() {
-    return modelValue.value
-  },
-  set(newValue) {
-    let value = newValue ?? ''
-    if (modifiers.upper) {
-      console.log('thuthtu', newValue)
-    }
-  },
-})
+const capitalizeName = ref('')
 </script>
 <template>
   <div>
@@ -37,8 +22,8 @@ const capitalizeName = computed({
       <input type="text" v-model.trim="fullname" />
     </div>
     <div>
-      <label>Custom - Fullname capitalize: {{ capitalizeName }}</label>
-      <input type="text" v-model.upper="capitalizeName" />
+      <label>Custom - Fullname upper: {{ capitalizeName }}</label>
+      <CustomInput type="text" v-model.upper="capitalizeName" />
     </div>
   </div>
 </template>

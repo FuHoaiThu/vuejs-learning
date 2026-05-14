@@ -39,6 +39,8 @@ Học vuejs từ cơ bản đến nâng cao
 
 12. Lifecycle
 
+13. Watchers
+
 Bài tập thực hành
 
 1. Todo list app
