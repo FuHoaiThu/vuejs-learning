@@ -15,31 +15,37 @@ Học vuejs từ cơ bản đến nâng cao
 - Text interpolation: {{ }}
 - One-way binding: v-bind
 - Two-way binding: v-model
+- Binding class and study
 
 6. Directives: v-prefix
 
-7. Binding class and style
-
-- Binding clas: Qua đối tượng và qua mảng
-
-8. Conditional rendering
+7. Conditional rendering
 
 - v-if, v-else, v-else-if
 - v-show
 
-9. Rendering list
+8. Rendering list
 
 - v-for and :key
 
-10. Event handling
+9. Event handling
 
-11. Form + v-model
+10. Form + v-model
 
 - v-model modifiers
 
-12. Lifecycle
+11. Lifecycle
 
-13. Watchers
+12. Watchers
+
+13. Template Refs
+
+14. Components
+
+- Props
+- Events
+- Global component
+- v-model component
 
 Bài tập thực hành
 
